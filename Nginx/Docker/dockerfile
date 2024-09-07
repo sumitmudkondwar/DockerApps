@@ -1,0 +1,2 @@
+FROM nginx
+COPY ./SampleWebApp/ /usr/share/nginx/html

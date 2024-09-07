@@ -35,3 +35,16 @@ NOTE: if you want to delete the image then first you have to delete the containe
 
 * run command "docker ps -a" to check the list of containers.
 * run this command to delete the container "docker rm [container ID]"
+* This is another option to delete "docker rmi {imagename}:{tagname}" >> "docker rmi ubuntu:latest"
+
+
+## How to run a container for 10 seconds
+
+* docker run -d ubuntu sleep 10
+
+
+## How to "docker run without images"
+Run the command "docker run {Imagename}:{tag}" >> "docker run hello-world"
+this will download if the image no present in local and run it.
+
+
