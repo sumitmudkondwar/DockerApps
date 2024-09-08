@@ -1,0 +1,8 @@
+FROM nginx:mainline-alpine-perl as base
+WORKDIR /usr/share/nginx/html
+EXPOSE 80
+COPY ./SampleWebApp/ .
+
+#FROM base as Final
+FROM nginx as Final
+COPY --from=base /usr/share/nginx/html /src/
