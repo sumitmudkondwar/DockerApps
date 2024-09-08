@@ -98,3 +98,67 @@ COPY ./SampleWebApp/ .
 FROM nginx as Final
 COPY --from=base /usr/share/nginx/html /src/
 ```
+
+## RUN
+
+Run command is used to build the dotnet web app or any other app in docker file.
+
+```bash
+FROM nginx:mainline-alpine-perl as base
+WORKDIR /usr/share/nginx/html
+EXPOSE 80
+COPY ./SampleWebApp/ .
+
+RUN dotnet build "DockerSampleApp.csproj"
+
+#FROM base as Final
+FROM nginx as Final
+COPY --from=base /usr/share/nginx/html /src/
+```
+
+The Command **`RUN dotnet build "DockerSampleApp.csproj"`** will build the code for us and also we have a publish command to publish the code.
+**`RUN dotnet publish "DockerSampleApp.csproj"`**
+
+
+## ENTRYPOINT
+
+We use this command to provide executables when the container is launched.
+
+
+## Volumns
+
+If you have some files and folders in your dotnet application like images you want those images should be copied in your local server, because if you restart the container all the images saved in your local will be remapped and end user will not suffer, that is an usecase of the docker volumes.
+
+to create the volume we can run this command
+
+```bash
+docker run -d -v <volume path in local:app path in the container> --name samepl-web-container -p 9100:80 sample-web-app:1.0
+
+docker run -d -v C:\dockerbackup:/user/share/nginx/dockerfiles --name samepl-web-container -p 9100:80 sample-web-app:1.0
+
+```
+now if you go to the container path 
+
+```bash
+docker exec -it <ContainerID> bash
+
+cd /user/share/nginx/dockerfiles
+
+ls
+
+echo "Hello, I am Sumit Here!!!" > myfile.txt
+
+exit
+
+docker rm <ContainerID> -f
+
+docker run -d -v C:\dockerbackup:/user/share/nginx/dockerfiles --name samepl-web-container1 -p 9200:80 sample-web-app:1.0
+
+docker exec -it <ContainerID> bash
+
+cd /user/share/nginx/dockerfiles
+
+ls
+```
+
+if you do this exrcise you will see the files are intact in the local machine and not deleted even if the container is restarted.
